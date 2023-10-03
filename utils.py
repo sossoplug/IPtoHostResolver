@@ -65,11 +65,11 @@ def is_domain_active(hostname: str, timeout: int = 1) -> bool:
         return True
     except subprocess.CalledProcessError:
         # Logging and returning False if ping fails
-        write_to_log(f"Domain {hostname} is not active.", "SUCCESS")
+        write_to_log(f"Domain {hostname} is not active.", "INFO")
         return False
     except Exception as e:
         # Logging any unexpected error
-        write_to_log(f"Failed to ping {hostname}: {str(e)}", "ERROR")
+        write_to_log(f"Failed to ping {hostname}: {str(e)}", "INFO")
         return False
 
 
@@ -94,7 +94,7 @@ def write_hostname_to_file(filepath: str, hostname: str) -> None:
         else:
             write_to_log(f"Hostname {hostname} was not written to the file as it is not active.", "INFO")
     except Exception as e:
-        write_to_log(f"Failed to write hostname {hostname} to {filepath}: {str(e)}", "ERROR")
+        write_to_log(f"Failed to write hostname {hostname} to {filepath}: {str(e)}", "FAIL")
 
 
 # ==================
@@ -123,11 +123,10 @@ def post_process_output_file(filepath: str) -> None:
         with open(filepath, "w") as file:                                       # Writing back the refined data to the file
             file.writelines(sorted_domains)
 
-        write_to_log(f"Post-processed {filepath}: removed duplicates and sorted entries.", "SUCCESS")
-        print(f"Post-processed {filepath}: removed duplicates and sorted entries.")
+        write_to_log(f"Post-processed {filepath}: removed duplicates and sorted entries.", "INFO")
     except Exception as e:
         # Logging any unexpected error
-        write_to_log(f"Failed to post-process {filepath}: {str(e)}", "ERROR")
+        write_to_log(f"Failed to post-process {filepath}: {str(e)}", "FAIL")
 
 
 # ==================
@@ -139,7 +138,7 @@ def write_to_log(message: str, status: str) -> None:
 
     Args:
     - message (str):    The message to be logged.
-    - status (str):     The status of the message (ERROR/SUCCESS).
+    - status (str):     The status of the message (ERROR/SUCCESS/FAIL/INFO).
 
     Returns:
     - None

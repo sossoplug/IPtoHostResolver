@@ -26,13 +26,13 @@ def resolve_ip_addresses_in_thread(ip_addresses: List[str], output_filepath: str
 
             if hostname:
                 write_hostname_to_file(output_filepath, hostname)
-                write_to_log(f"======================================================================\n"
-                             f"[#{i}] Resolved {ip} to {hostname}", "SUCCESS")
+                write_to_log(f"======================================================================" ,"")
+                write_to_log(f"[#{i}] Resolved {ip} to {hostname}", "INFO")
             else:
-                write_to_log(f"======================================================================\n"
-                             f"[#{i}] Failed to resolve {ip}", "ERROR")
+                write_to_log(f"======================================================================", "")
+                write_to_log(f"[#{i}] Failed to resolve {ip}", "INFO")
 
     except Exception as e:
-        write_to_log(f"Error in thread: {str(e)}", "ERROR")
+        write_to_log(f"Error in thread: {str(e)}", "FAIL")
 
 
