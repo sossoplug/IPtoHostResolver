@@ -5,7 +5,7 @@ IPToHostResolver is a Python script designed to resolve IP addresses to their re
 
 ## Features
 - **Multithreading**: Efficiently resolves multiple IP addresses concurrently.
-- **Hostname Resolution**: Converts IP addresses to their respective hostnames.
+- **Hostname Resolution**: Converts IP addresses to their respective hostnames,  Then Pings to make sure they active.
 - **Logging**: Keeps a detailed log of the resolution process and any errors encountered.
 - **Configurability**: Allows customization via environment variables.
 

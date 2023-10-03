@@ -2,7 +2,7 @@ import os
 import threading
 
 from ip_resolver import resolve_ip_addresses_in_thread
-from utils import load_ip_addresses, write_to_log
+from utils import load_ip_addresses, write_to_log, post_process_output_file, wipe_file_clean
 from dotenv import load_dotenv, find_dotenv
 
 # Load environment variables
@@ -20,11 +20,16 @@ def main():
     - None
     """
     try:
+
         # Load environment variables
         ip_list_filepath            = os.getenv("IP_LIST_FILEPATH")
         number_of_threads           = int(os.getenv("NUMBER_OF_THREADS"))
         found_urls_filepath         = os.getenv("FOUND_URLS_FILEPATH")
         log_output_filepath         = os.getenv("LOG_OUTPUT_FILEPATH")
+
+        # Cleaned files
+        wipe_file_clean(log_output_filepath)
+        wipe_file_clean(found_urls_filepath)
 
         # Load IP addresses
         ip_addresses                = load_ip_addresses(ip_list_filepath)
@@ -46,6 +51,9 @@ def main():
         # Wait for all threads to finish
         for t in threads:
             t.join()
+
+        # After all threads have completed, perform post-processing on the output file
+        post_process_output_file(os.getenv("FOUND_URLS_FILEPATH"))
 
     except Exception as e:
         write_to_log(f"Error in main function: {str(e)}", "ERROR")
